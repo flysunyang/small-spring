@@ -1,0 +1,112 @@
+package org.springframework.beans.factory.xml;
+
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.XmlUtil;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.PropertyValue;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanReference;
+import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
+
+    private static final String BEAN_ELEMENT = "bean";
+    private static final String PROPERTY_ELEMENT = "property";
+    private static final String ID_ATTRIBUTE = "id";
+    private static final String NAME_ATTRIBUTE = "name";
+    private static final String CLASS_ATTRIBUTE = "class";
+    private static final String VALUE_ATTRIBUTE = "value";
+    private static final String REF_ATTRIBUTE = "ref";
+
+    public XmlBeanDefinitionReader(BeanDefinitionRegistry registry, ResourceLoader resourceLoader) {
+        super(registry, resourceLoader);
+    }
+
+    public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
+        super(registry);
+    }
+
+    @Override
+    public void loadBeanDefinitions(Resource resource) throws BeansException {
+        try {
+            try (InputStream inputStream = resource.getInputStream()) {
+                doLoadBeanDefinitions(inputStream);
+            }
+        } catch (IOException e) {
+            throw new BeansException("IOException parsing XML document from " + resource, e);
+        }
+    }
+
+    protected void doLoadBeanDefinitions(InputStream inputStream) {
+        Document document = XmlUtil.readXML(inputStream);
+        Element root = document.getDocumentElement();
+        NodeList childNodes = root.getChildNodes();
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node item = childNodes.item(i);
+            if (!(item instanceof Element bean)) {
+                continue;
+            }
+            if (BEAN_ELEMENT.equals(bean.getNodeName())) {
+                String id = bean.getAttribute(ID_ATTRIBUTE);
+                String name = bean.getAttribute(NAME_ATTRIBUTE);
+                String className = bean.getAttribute(CLASS_ATTRIBUTE);
+
+                Class<?> clazz;
+                try {
+                    clazz = Class.forName(className);
+                } catch (ClassNotFoundException e) {
+                    throw new BeansException("Cannot find class[" + className + "]");
+                }
+                String beanName = StrUtil.isNotEmpty(id) ? id : name;
+                if (StrUtil.isEmpty(beanName)) {
+                    beanName = StrUtil.lowerFirst(clazz.getSimpleName());
+                }
+
+                BeanDefinition beanDefinition = new BeanDefinition(clazz);
+
+                for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
+                    if (!(bean.getChildNodes().item(j) instanceof Element property)) {
+                        continue;
+                    }
+                    if (PROPERTY_ELEMENT.equals(property.getNodeName())) {
+                        String nameAttribute = property.getAttribute(NAME_ATTRIBUTE);
+                        String valueAttribute = property.getAttribute(VALUE_ATTRIBUTE);
+                        String refAttribute = property.getAttribute(REF_ATTRIBUTE);
+
+                        if (StrUtil.isEmpty(nameAttribute)) {
+                            throw new BeansException("The name attribute cannot be null or empty");
+                        }
+                        Object value = valueAttribute;
+                        if (StrUtil.isNotEmpty(refAttribute)) {
+                            value = new BeanReference(refAttribute);
+                        }
+                        PropertyValue propertyValue = new PropertyValue(nameAttribute, value);
+                        beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+                    }
+                }
+                if (getRegistry().containsBeanDefinition(beanName)) {
+                    throw new BeansException("Duplicate beanName[" + beanName + "] is not allowed");
+                }
+                getRegistry().registerBeanDefinition(beanName, beanDefinition);
+            }
+        }
+    }
+
+    @Override
+    public void loadBeanDefinitions(String location) throws BeansException {
+        ResourceLoader resourceLoader = getResourceLoader();
+        Resource resource = resourceLoader.getResource(location);
+        loadBeanDefinitions(resource);
+    }
+
+}
