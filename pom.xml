@@ -33,6 +33,12 @@
             <artifactId>hutool-core</artifactId>
             <version>5.8.30</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+        </dependency>
     </dependencies>
     
     <build>
