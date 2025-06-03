@@ -5,6 +5,7 @@ import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValue;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -52,13 +53,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected Object initializeBean(Object bean, String beanName, BeanDefinition beanDefinition) {
+        if (bean instanceof BeanFactoryAware beanFactoryAware) {
+            beanFactoryAware.setBeanFactory(this);
+        }
         Object wrappedBean = applyBeanPostProcessorBeforeInitialization(bean, beanName);
         try {
             invokeInitMethod(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Invocation of init method of bean[" + beanName + "] failed", e);
         }
-        wrappedBean = applyBeanPostProcessorAfterInitialization(bean, beanName);
+        wrappedBean = applyBeanPostProcessorAfterInitialization(wrappedBean, beanName);
         return wrappedBean;
     }
 
