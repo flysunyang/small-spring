@@ -11,6 +11,26 @@ public class BeanDefinition {
     private String initMethodName;
     
     private String destroyMethodName;
+    
+    private String scope;
+    
+    private boolean singleton;
+    
+    private boolean prototype;
+
+    public void setScope(String scope) {
+        this.scope = scope;
+        this.singleton = "singleton".equals(scope);
+        this.prototype = "prototype".equals(scope);
+    }
+
+    public boolean isSingleton() {
+        return singleton;
+    }
+
+    public boolean isPrototype() {
+        return prototype;
+    }
 
     public BeanDefinition(Class<?> beanClass, PropertyValues propertyValues) {
         this.beanClass = beanClass;
