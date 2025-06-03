@@ -4,6 +4,10 @@ import org.springframework.beans.PropertyValues;
 
 public class BeanDefinition {
 
+    private static final String SCOPE_SINGLETON = "singleton";
+    
+    private static final String SCOPE_PROTOTYPE = "prototype";
+    
     private Class<?> beanClass;
 
     private PropertyValues propertyValues;
@@ -11,10 +15,30 @@ public class BeanDefinition {
     private String initMethodName;
     
     private String destroyMethodName;
+    
+    private boolean singleton = true;
+    
+    private boolean prototype = false;
+    
+    private String scope = SCOPE_SINGLETON;
 
     public BeanDefinition(Class<?> beanClass, PropertyValues propertyValues) {
         this.beanClass = beanClass;
         this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+        this.singleton = SCOPE_SINGLETON.equals(scope);
+        this.prototype = SCOPE_PROTOTYPE.equals(scope);
+    }
+
+    public boolean isSingleton() {
+        return singleton;
+    }
+
+    public boolean isPrototype() {
+        return prototype;
     }
 
     public String getInitMethodName() {
