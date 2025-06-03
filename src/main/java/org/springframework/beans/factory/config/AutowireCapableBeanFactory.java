@@ -4,8 +4,8 @@ import org.springframework.beans.factory.BeanFactory;
 
 public interface AutowireCapableBeanFactory extends BeanFactory {
     
-    Object applyBeanPostProcessorBeforeInitialization(Object existingBean, String beanName);
+    Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName);
     
-    Object applyBeanPostProcessorAfterInitialization(Object existingBean, String beanName);
+    Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName);
     
 }
