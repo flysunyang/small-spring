@@ -80,7 +80,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
             beanDefinition.setInitMethodName(initMethodName);
             beanDefinition.setDestroyMethodName(destroyMethodName);
-            beanDefinition.setScope(scope);
+            if (StrUtil.isNotEmpty(scope)) {
+                beanDefinition.setScope(scope);    
+            }
 
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
                 if (!(bean.getChildNodes().item(j) instanceof Element property)) {

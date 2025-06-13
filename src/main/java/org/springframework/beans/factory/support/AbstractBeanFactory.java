@@ -1,6 +1,7 @@
 package org.springframework.beans.factory.support;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -8,18 +9,30 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     @Override
     public Object getBean(String beanName) throws BeansException {
-        Object singleton = getSingleton(beanName);
-        if (singleton != null) {
-            return singleton;
+        Object sharedInstance = getSingleton(beanName);
+        if (sharedInstance != null) {
+            return getObjectForBeanInstance(sharedInstance, beanName);
         }
         BeanDefinition beanDefinition = getBeanDefinition(beanName);
         return createBean(beanName, beanDefinition);
+    }
+
+    protected Object getObjectForBeanInstance(Object instance, String beanName) {
+        if (!(instance instanceof FactoryBean<?>)) {
+            return instance;
+        }
+        Object object = getCacheObjectForFactoryBean(beanName);
+        if (object == null) {
+            FactoryBean<?> factoryBean = (FactoryBean<?>) instance;
+            object = getObjectFromFactoryBean(factoryBean, beanName);
+        }
+        return object;
     }
 
     @SuppressWarnings("unchecked")
