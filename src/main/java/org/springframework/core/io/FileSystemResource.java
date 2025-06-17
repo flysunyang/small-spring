@@ -10,8 +10,8 @@ public class FileSystemResource implements Resource {
 
     private final String filePath;
 
-    public FileSystemResource(String filePath) {
-        this.filePath = filePath;
+    public FileSystemResource(String path) {
+        this.filePath = path;
     }
 
     @Override

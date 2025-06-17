@@ -6,24 +6,30 @@ import org.springframework.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
+    
+    private Map<String, Object> singletonObjects = new HashMap<>();
 
-    private final Map<String, Object> singletonMap = new HashMap<>();
-
-    private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
-
+    private final Map<String, DisposableBean> disposableBeanMap = new HashMap<>();
+    
     @Override
-    public Object getSingleton(String beanName) {
-        return singletonMap.get(beanName);
+    public void addSingleton(String beanName, Object singleton) {
+        singletonObjects.put(beanName, singleton);
     }
 
     @Override
+    public Object getSingleton(String beanName) {
+        return singletonObjects.get(beanName);
+    }
+
+    public void registerDisposableBean(String beanName, DisposableBean disposableBean) {
+        disposableBeanMap.put(beanName, disposableBean);
+    }
+
     public void destroySingletons() {
-        Set<String> beanNames = disposableBeans.keySet();
-        for (String beanName : beanNames) {
-            DisposableBean disposableBean = disposableBeans.remove(beanName);
+        for (String beanName : disposableBeanMap.keySet()) {
+            DisposableBean disposableBean = disposableBeanMap.remove(beanName);
             try {
                 disposableBean.destroy();
             } catch (Exception e) {
@@ -31,12 +37,5 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
             }
         }
     }
-
-    protected void addSingleton(String beanName, Object singleton) {
-        singletonMap.put(beanName, singleton);
-    }
-
-    public void registerDisposableBean(String beanName, DisposableBean disposableBean) {
-        disposableBeans.put(beanName, disposableBean);
-    }
+    
 }

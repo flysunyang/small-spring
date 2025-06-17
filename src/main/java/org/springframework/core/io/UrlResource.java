@@ -6,7 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class UrlResource implements Resource {
-
+    
     private final URL url;
 
     public UrlResource(URL url) {

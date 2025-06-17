@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <bean id="person" class="org.springframework.test.ioc.bean.Person">
+        <property name="name" value="alice"/>
+        <property name="car" ref="car"/>
+    </bean>
+
+    <bean id="car" class="org.springframework.test.ioc.bean.Car">
+        <property name="brand" value="BMW"/>
+    </bean>
+    
+    <bean class="org.springframework.test.ioc.common.event.CustomBeanFactoryPostProcessor"/>
+    <bean class="org.springframework.test.ioc.common.event.CustomBeanPostProcessor"/>
+    
+    <bean id="userService" class="org.springframework.test.ioc.service.UserService"/>
+</beans>

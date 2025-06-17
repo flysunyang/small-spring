@@ -5,6 +5,6 @@ import org.springframework.beans.factory.ConfigurableListableBeanFactory;
 
 public interface BeanFactoryPostProcessor {
     
-    void postProcessorBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;
+    void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;
     
 }

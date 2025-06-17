@@ -6,10 +6,9 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 
 public interface ConfigurableListableBeanFactory extends ListableBeanFactory, AutowireCapableBeanFactory, ConfigurableBeanFactory {
-    
-    BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
-    void preInstantiateSingletons();
-    
-    
+
+    BeanDefinition getBeanDefinition(String beanName);
+
+    void preInstantiateSingletons() throws BeansException;
 }

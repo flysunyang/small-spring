@@ -1,41 +1,29 @@
 package org.springframework.beans.factory.support;
 
-import org.springframework.beans.BeansException;
+import lombok.Getter;
+import org.springframework.beans.factory.config.BeanDefinitionRegistry;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader {
-    
-    private BeanDefinitionRegistry registry;
-    
+
     private ResourceLoader resourceLoader;
 
-    public AbstractBeanDefinitionReader(BeanDefinitionRegistry registry) {
-        this(registry, new DefaultResourceLoader());
-    }
+    @Getter
+    private final BeanDefinitionRegistry beanDefinitionRegistry;
 
-    public AbstractBeanDefinitionReader(BeanDefinitionRegistry registry, ResourceLoader resourceLoader) {
-        this.registry = registry;
+    public AbstractBeanDefinitionReader(ResourceLoader resourceLoader, BeanDefinitionRegistry beanDefinitionRegistry) {
         this.resourceLoader = resourceLoader;
+        this.beanDefinitionRegistry = beanDefinitionRegistry;
     }
 
-    @Override
-    public void loadBeanDefinitions(String location) throws BeansException {
-        Resource resource = resourceLoader.getResource(location);
-        loadBeanDefinitions(resource);
+    public AbstractBeanDefinitionReader(BeanDefinitionRegistry beanDefinitionRegistry) {
+        this.beanDefinitionRegistry = beanDefinitionRegistry;
+        this.resourceLoader = new DefaultResourceLoader();
     }
 
-    @Override
-    public void loadBeanDefinitions(String[] locations) throws BeansException {
-        for (String location : locations) {
-            loadBeanDefinitions(location);
-        }
-    }
-
-    @Override
-    public BeanDefinitionRegistry getRegistry() {
-        return registry;
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
     }
 
     @Override

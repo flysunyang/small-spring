@@ -1,75 +1,50 @@
 package org.springframework.beans.factory.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.PropertyValues;
 
 public class BeanDefinition {
 
+    private static final String SCOPE_SINGLETON = "singleton";
+
+    private static final String SCOPE_PROTOTYPE = "prototype";
+    @Getter
     private Class<?> beanClass;
 
+    @Getter
+    @Setter
     private PropertyValues propertyValues;
-    
+
+    @Getter
+    @Setter
     private String initMethodName;
-    
+
+    @Getter
+    @Setter
     private String destroyMethodName;
-    
-    private String scope;
-    
-    private boolean singleton;
-    
-    private boolean prototype;
+
+    @Getter
+    private boolean singleton = true;
+
+    @Getter
+    private boolean prototype = false;
+
+    @Getter
+    private String scope = SCOPE_SINGLETON;
 
     public void setScope(String scope) {
         this.scope = scope;
-        this.singleton = "singleton".equals(scope);
-        this.prototype = "prototype".equals(scope);
+        this.singleton = SCOPE_SINGLETON.equals(scope);
+        this.prototype = SCOPE_PROTOTYPE.equals(scope);
     }
 
-    public boolean isSingleton() {
-        return singleton;
-    }
-
-    public boolean isPrototype() {
-        return prototype;
+    public BeanDefinition(Class<?> beanClass) {
+        this(beanClass, null);
     }
 
     public BeanDefinition(Class<?> beanClass, PropertyValues propertyValues) {
         this.beanClass = beanClass;
         this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
-    }
-
-    public String getInitMethodName() {
-        return initMethodName;
-    }
-
-    public void setInitMethodName(String initMethodName) {
-        this.initMethodName = initMethodName;
-    }
-
-    public String getDestroyMethodName() {
-        return destroyMethodName;
-    }
-
-    public void setDestroyMethodName(String destroyMethodName) {
-        this.destroyMethodName = destroyMethodName;
-    }
-
-    public PropertyValues getPropertyValues() {
-        return propertyValues;
-    }
-
-    public void setPropertyValues(PropertyValues propertyValues) {
-        this.propertyValues = propertyValues;
-    }
-
-    public Class<?> getBeanClass() {
-        return beanClass;
-    }
-
-    public void setBeanClass(Class<?> beanClass) {
-        this.beanClass = beanClass;
-    }
-
-    public BeanDefinition(Class<?> beanClass) {
-        this(beanClass, null);
     }
 }

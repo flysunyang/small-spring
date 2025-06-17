@@ -1,0 +1,13 @@
+1.简单的 BeanFactory
+2.创建 BeanDefinition & BeanDefinitionRegistry 实现
+3.Bean 实例化策略模式 InstantiationStrategy
+4.为 bean 填充属性
+5.为 bean 注入 bean 属性
+6.引入 XML 定义 bean
+7.容器扩展机制 BeanFactoryPostProcessor & BeanPostProcessor
+8.应用上下文 ApplicationContext
+9.bean 的初始化和销毁方法
+10.Aware 接口
+11.Bean的作用域，增加 prototype 的支持
+12.FactoryBean
+13.容器事件和事件监听器

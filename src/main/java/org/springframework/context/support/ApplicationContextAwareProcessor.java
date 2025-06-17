@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 public class ApplicationContextAwareProcessor implements BeanPostProcessor {
-    
+
     private final ApplicationContext applicationContext;
 
     public ApplicationContextAwareProcessor(ApplicationContext applicationContext) {
@@ -14,7 +14,7 @@ public class ApplicationContextAwareProcessor implements BeanPostProcessor {
     }
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessorBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof ApplicationContextAware applicationContextAware) {
             applicationContextAware.setApplicationContext(applicationContext);
         }
@@ -22,7 +22,7 @@ public class ApplicationContextAwareProcessor implements BeanPostProcessor {
     }
 
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessorAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
 }
