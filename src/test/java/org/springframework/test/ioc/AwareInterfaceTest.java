@@ -3,7 +3,7 @@ package org.springframework.test.ioc;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.ioc.service.UserService;
+import org.springframework.test.service.UserService;
 
 public class AwareInterfaceTest {
     

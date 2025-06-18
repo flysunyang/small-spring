@@ -1,4 +1,4 @@
-package org.springframework.test.ioc.common.event;
+package org.springframework.test.event;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValue;

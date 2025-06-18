@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
-    <bean class="org.springframework.test.ioc.common.event.CustomEventListener"/>
-    <bean class="org.springframework.test.ioc.common.event.ContextRefreshedEventListener"/>
-    <bean class="org.springframework.test.ioc.common.event.ContextClosedEventListener"/>
+    <bean class="org.springframework.test.event.CustomEventListener"/>
+    <bean class="org.springframework.test.event.ContextRefreshedEventListener"/>
+    <bean class="org.springframework.test.event.ContextClosedEventListener"/>
 </beans>
