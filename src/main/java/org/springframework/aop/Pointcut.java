@@ -2,8 +2,8 @@ package org.springframework.aop;
 
 public interface Pointcut {
     
-    ClassFilter classFilter();
+    ClassFilter getClassFilter();
     
-    MethodMatcher methodMatcher();
+    MethodMatcher getMethodMatcher();
     
 }

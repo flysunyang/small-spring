@@ -34,7 +34,8 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
             return getObjectFromBeanInstance(sharedInstance, beanName);
         }
         BeanDefinition beanDefinition = getBeanDefinition(beanName);
-        return createBean(beanName, beanDefinition);
+        Object bean = createBean(beanName, beanDefinition);
+        return getObjectFromBeanInstance(bean, beanName);
     }
 
     protected Object getObjectFromBeanInstance(Object bean, String beanName) {

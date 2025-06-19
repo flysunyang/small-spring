@@ -21,4 +21,7 @@ public class AdvisedSupport {
      */
     private MethodMatcher methodMatcher;
     
+    // 是否使用 cglib 代理
+    private boolean proxyTargetClass = false;
+    
 }
