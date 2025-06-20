@@ -1,0 +1,12 @@
+# IOC
+1.将对象的创建交给 spring 管理，核心 BeanDefinition
+2.使用策略模式，支持CGLIB & JDK 创建 bean
+3.XML 注册 & ApplicationContext
+4.属性的注入 & 对象的作用域
+5.BeanFactoryPostProcessor & BeanPostProcessor
+6.init-method\destroy-method & InitializingBean & DisposableBean
+7.Aware
+8.FactoryBean
+9.Event
+
+# AOP
