@@ -103,6 +103,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 
+    @Override
+    public String[] getBeanDefinitionNames() {
+        return getBeanFactory().getBeanDefinitionNames();
+    }
+
+    @Override
+    public Object getBean(Class<?> classType) throws BeansException {
+        return getBeanFactory().getBean(classType);
+    }
+
     protected void doClose() {
         publishEvnet(new ContextClosedEvent(this));
         destroyBeans();

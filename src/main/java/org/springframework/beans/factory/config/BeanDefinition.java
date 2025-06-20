@@ -1,7 +1,9 @@
 package org.springframework.beans.factory.config;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.beans.PropertyValues;
 
+@EqualsAndHashCode
 public class BeanDefinition {
 
     public static String SCOPE_SINGLETON = "singleton";
