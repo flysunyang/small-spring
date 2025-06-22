@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <bean class="org.springframework.event.UserApplicationEventListener"/>
+    <bean class="org.springframework.event.ContextRefreshEventListener"/>
+    <bean class="org.springframework.event.ContextClosedEventListener"/>
+</beans>

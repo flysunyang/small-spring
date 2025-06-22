@@ -1,14 +1,12 @@
-package org.springframework.bean;
+package org.springframework.bean.factory;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public class PropertyValue {
+public class BeanReference {
 
     @Getter
     private final String name;
 
-    @Getter
-    private final Object value;
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <bean id="user" class="org.springframework.bean.User">
+        <property name="name" value="alice"/>
+    </bean>
+
+    <bean id="car" class="org.springframework.bean.Car">
+        <property name="brand" value="BMW"/>
+    </bean>
+
+    <bean class="org.springframework.config.UserBeanFactoryPostProcessor"/>
+    <bean class="org.springframework.config.CommonBeanPostProcessor"/>
+</beans>

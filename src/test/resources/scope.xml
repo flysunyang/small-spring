@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <bean id="user" class="org.springframework.bean.User">
+        <property name="name" value="alice"/>
+    </bean>
+
+    <bean id="car" class="org.springframework.bean.Car" scope="prototype">
+        <property name="brand" value="BYD"/>
+    </bean>
+</beans>
